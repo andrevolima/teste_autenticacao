@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        {% if error %}
+        <p class="error-message">{{ error }}</p>
+        {% endif %}
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            {% if error %}
+            <p class="error">{{ error }}</p>
+            {% endif %}
+            <input type="submit" value="Sign In">
+        </form>
+        <p>Não possui conta? <a href="{% url 'cadastrar' %}">Cadastrar-se</a></p>
+    </div>
+
+    <!-- Inclua o SDK do Firebase sem módulos -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-auth-compat.js"></script>
+
+    <!-- Configuração do Firebase -->
+    <script>
+        var firebaseConfig = {
+            'apiKey': "AIzaSyBWy9OCAKP3NR4dFPLfSUzzk-QXLBkdZmY",
+            'authDomain': "teste-saudekids.firebaseapp.com",
+            'projectId': "teste-saudekids",
+            'storageBucket': "teste-saudekids.appspot.com",
+            'messagingSenderId': "103564023514",
+            'appId': "1:103564023514:web:702908e4968a10ba1a77e3",
+            'databaseURL': "postgresql://postgres:admin@localhost:5432/FabricaTeste"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // Código JavaScript para acessar o token JWT
+        firebase.auth().onAuthStateChanged(function(user) {
+
+        if (user) {
+            user.getIdToken().then(function(token) {
+                // Armazena o token JWT no localStorage
+                localStorage.setItem('jwtToken', token);
+                console.log(token);
+            });
+        }
+    });
+
+    </script>
+</body>
+
+</html>

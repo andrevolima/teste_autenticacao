@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Bem-Vindo ao Nosso Site!</h1>
+        <p>Obrigado por se juntar a nós. Sinta-se à vontade para explorar e aproveitar nossos serviços.</p>
+        <p>Se você ainda não tem uma conta, pode <a href="Cadastrar.html">Cadastrar-se</a> ou <a href="Login.html">Entrar</a>
+            para acessar mais recursos.</p>
+        
+        <!-- Local para exibir o token JWT -->
+        <p>Token JWT: <span id="jwtToken"></span></p>
+    </div>
+
+    <!-- Inclua o SDK do Firebase sem módulos -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-auth-compat.js"></script>
+
+    <!-- Configuração do Firebase -->
+    <script>
+        var firebaseConfig = {
+            'apiKey': "AIzaSyBWy9OCAKP3NR4dFPLfSUzzk-QXLBkdZmY",
+            'authDomain': "teste-saudekids.firebaseapp.com",
+            'projectId': "teste-saudekids",
+            'storageBucket': "teste-saudekids.appspot.com",
+            'messagingSenderId': "103564023514",
+            'appId': "1:103564023514:web:702908e4968a10ba1a77e3",
+            'databaseURL': "postgresql://postgres:admin@localhost:5432/FabricaTeste"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // Código JavaScript para acessar o token JWT
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                user.getIdToken().then(function(token) {
+                    console.log("Token JWT:", token);
+                    
+                    // Exibe o token JWT na página
+                    document.getElementById('jwtToken').textContent = token;
+                }).catch(function(error) {
+                    console.error("erro ao obter o token JWT:", error);
+                });
+            } else {
+                console.log("deu bosta");
+                
+                // Limpa o conteúdo do token JWT na página
+                document.getElementById('jwtToken').textContent = "Erroooo";
+            }
+        });
+    </script>
+</body>
+
+</html>
